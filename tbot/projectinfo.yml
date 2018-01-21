@@ -1,0 +1,15 @@
+info:
+  project_name: "py3tbot"
+  project_start_date: 01/22/2018
+  name: "py3tbot"
+  authors: "Wyatt Roersma"
+  authors_email: "wyattroersma@gmail.com"
+
+version:
+  major: 0
+  minor: 1
+  revision: 1
+  release: 0
+
+sqlite:
+  SQLALCHEMY_DATABASE_URI: "sqlite:///tbot.db"

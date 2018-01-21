@@ -1,3 +1,4 @@
+PyYAML
 click
 coverage
 Flask
