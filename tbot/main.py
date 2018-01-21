@@ -1,19 +1,22 @@
 import logging
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+import os
 from lib.info import ProjectInfo
 from lib.subscriber import return_random_sub_name, get_sub_list
-from lib.database import User, check_user
+from lib.database import User, check_user, db
+
+# TODO make a subscribers_file get from API function to check for an update every time we run
 subscribers_file = "subscribers.csv"
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tbot.db'
-db = SQLAlchemy(app)
+file_name = "lib/tbot.db"
 
 
 def main() -> None:
     """ Main Function to run py3tbot in a development ENV"""
+    # create a basic logging level of info
     logging.basicConfig(level=logging.INFO)
     logging.info("Getting Project Info")
+    # create a file handler
+    handler = logging.FileHandler('py3tbot.log')
+    handler.setLevel(logging.INFO)
     run = ProjectInfo()
     project_data = run.get()
     project_info_data = project_data["info"]
@@ -25,17 +28,16 @@ def main() -> None:
     logging.info(__version__)
     sub_list = get_sub_list(subscribers_file)
     sub_name = return_random_sub_name(sub_list)
-    db.create_all()
-    check_for_user = User.query.filter_by(username=sub_name).first()
-    possible_sub_winner = check_user(check_for_user, sub_name)
-    print(possible_sub_winner)
+    if os.path.exists(file_name) is True:
+        check_for_user = User.query.filter_by(username=sub_name).first()
+        possible_sub_winner = check_user(check_for_user, sub_name)
+    else:
+        logging.info("No users found in db so adding the first one")
+        db.create_all()
+        check_for_user = None
+        possible_sub_winner = check_user(check_for_user, sub_name)
+    print("Congrats on winning " + possible_sub_winner)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
