@@ -1,7 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from config import ConfigParser
+
+config_file = ConfigParser()
+config_data = config_file.get()
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tbot.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = config_data["config"]["SQLALCHEMY_DATABASE_URI"]
 db = SQLAlchemy(app)
 
 

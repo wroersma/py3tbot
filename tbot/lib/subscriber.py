@@ -3,7 +3,8 @@ import random
 
 def get_subscribers_file():
     """"""
-    print("nothing")
+    # TODO make a subscribers_file get from API function to check for an update every time we run
+    print("this is a place holder for a future function")
 
 
 def get_sub_list(subscribers_file) -> list:
@@ -19,5 +20,3 @@ def return_random_sub_name(sub_list) -> str:
     select_winner = random.randint(1, int(number_of_subs))
     name = sub_list[select_winner]
     return str(name[26:-1])
-
-
