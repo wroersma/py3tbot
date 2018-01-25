@@ -14,11 +14,10 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
-def check_user(check_for_user, sub_name):
-    if check_for_user is None:
-        winning_sub = User(username=sub_name)
-        db.session.add(winning_sub)
-        db.session.commit()
-        return sub_name
+def add_winner(sub_name):
+    winning_sub = User(username=sub_name)
+    db.session.add(winning_sub)
+    db.session.commit()
+    return sub_name
 
 

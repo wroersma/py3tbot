@@ -5,4 +5,4 @@ WORKDIR /opt/py3tbot
 
 RUN pip install -r requirements.txt
 
-CMD ["python3", "tbot/main.py"]
+CMD ["python3", "tbot/py3tbot_cli.py"]

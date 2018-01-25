@@ -3,8 +3,8 @@ import argparse
 import os
 from lib.logs import Logger
 from lib.info import ProjectInfo
-from lib.subscriber import return_random_sub_name, get_sub_list
-from lib.database import User, check_user, db
+from lib.subscriber import return_random_sub_name, get_sub_list, get_user_name_list, get_non_winning_sub_list
+from lib.database import User, db, add_winner
 from lib.config import get
 
 
@@ -43,19 +43,17 @@ class Py3TBOT:
     def run(self):
         if self.plugin == "giveaway":
             sub_list = get_sub_list(self.subscribers_file)
-            sub_name = return_random_sub_name(sub_list)
+            winner_list = User.query.order_by(User.username).all()
+            sub_user_name_list = get_user_name_list(sub_list)
+            non_winning_sub_list = get_non_winning_sub_list(sub_user_name_list, winner_list)
+            sub_name = return_random_sub_name(non_winning_sub_list)
 
-            if os.path.exists(self.file_name) is True:
-                # TODO clean this up to query user list before running it through the random picker
-                check_for_user = User.query.filter_by(username=sub_name).first()
-                possible_sub_winner = check_user(check_for_user, sub_name)
-                logging.info("New winner inserted into DB " + str(possible_sub_winner))
-                print("Congrats on winning " + possible_sub_winner)
-            else:
+            if os.path.exists(self.file_name) is False:
                 logging.info("No users found in db so adding the first one")
                 db.create_all()
-                check_for_user = None
-                possible_sub_winner = check_user(check_for_user, sub_name)
-                logging.info("New winner inserted into DB " + str(possible_sub_winner))
-                # TODO return notification to the stream in some way
-                print("Congrats on winning " + possible_sub_winner)
+
+            add_winner(sub_name)
+            logging.info("New winner inserted into DB " + str(sub_name))
+            print("Congrats on winning " + sub_name)
+
+
