@@ -10,3 +10,4 @@ six
 SQLAlchemy
 SQLAlchemy-Utils
 Werkzeug
+ujson
