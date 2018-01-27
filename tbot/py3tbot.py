@@ -6,6 +6,15 @@ from lib.info import ProjectInfo
 from lib.subscriber import return_random_sub_name, get_sub_list, get_user_name_list, get_non_winning_sub_list
 from lib.database import User, db, add_winner
 from lib.config import get
+from flask import Flask, render_template
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+@app.route("/")
+def index():
+    return render_template('index.html')
 
 
 class Py3TBOT:
@@ -40,6 +49,7 @@ class Py3TBOT:
         args = parser_args.parse_args()
         return args
 
+    @app.route("/tbot")
     def run(self):
         if self.plugin == "giveaway":
             sub_list = get_sub_list(self.subscribers_file)
@@ -56,4 +66,8 @@ class Py3TBOT:
             logging.info("New winner inserted into DB " + str(sub_name))
             print("Congrats on winning " + sub_name)
 
-
+    def create_app(self):
+        config_data = get(self.config_file)
+        app.config['SQLALCHEMY_DATABASE_URI'] = config_data["config"]["SQLALCHEMY_DATABASE_URI"]
+        db.init_app(app)
+        return app

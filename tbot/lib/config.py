@@ -16,8 +16,7 @@ def get(config) -> dict:
     return config_info
 
 
-def get_default() -> iter:
-    config = "tbot/config.yml"
+def get_default(config) -> iter:
     config_info = open_config(config)
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

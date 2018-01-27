@@ -2,7 +2,7 @@ from config import get_default
 
 
 # TODO Fix this trash and figure out how to not be so bad at coding
-config_data = get_default()
+config_data = get_default("tbot/config.yml")
 db = config_data[2]
 
 
