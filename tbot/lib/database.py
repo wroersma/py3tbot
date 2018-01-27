@@ -1,6 +1,5 @@
 import datetime
 from config import get_default
-from flask import Flask
 
 # TODO Fix this trash and figure out how to not be so bad at coding
 config_data = get_default("tbot/config.yml")
@@ -32,10 +31,10 @@ def add_winner(sub_name):
     return sub_name
 
 
-def create_admin_user():
-    app = Flask(__name__)
-    # TODO clean this up to get from config file as it's just a placeholder right
-    app.config['MYSQL_DATABASE_USER'] = 'jay'
-    app.config['MYSQL_DATABASE_PASSWORD'] = 'jay'
-    app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-    app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+def create_admin_user(user_info):
+    user_name = user_info["username"]
+    user_password = user_info["password"]
+    user_email = user_info["email"]
+    new_user = User(username=user_name, password=user_password, email=user_email)
+    db.session.add(new_user)
+    db.session.commit()

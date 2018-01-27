@@ -5,7 +5,7 @@ import ujson
 from lib.logs import Logger
 from lib.info import ProjectInfo
 from lib.subscriber import return_random_sub_name, get_sub_list, get_user_name_list, get_non_winning_sub_list
-from lib.database import User, db, add_winner
+from lib.database import User, db, add_winner, create_admin_user
 from lib.config import get
 from flask import Flask, render_template, request
 from werkzeug.security import generate_password_hash
@@ -32,25 +32,15 @@ def signup():
         _name = request.form['inputName']
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
-
+        user_info = {}
         if _name and _email and _password:
-            # TODO replace cursor with a sqlalchemy call
             _hashed_password = generate_password_hash(_password)
-            cursor.callproc('sp_createUser', (_name, _email, _hashed_password))
-            data = cursor.fetchall()
-
-            if len(data) is 0:
-                conn.commit()
-                return ujson.dumps({'message': 'User created successfully !'})
-            else:
-                return ujson.dumps({'error': str(data[0])})
-        else:
-            return ujson.dumps({'html': '<span>Enter the required fields</span>'})
-
-    except Exception as e:
-        return ujson.dumps({'error': str(e)})
+            user_info["username"] = _name
+            user_info["email"] = _email
+            user_info["password"] = _hashed_password
+            create_admin_user(user_info)
+            return ujson.dumps({'message': 'User created successfully !'})
     finally:
-        cursor.close()
         conn.close()
 
 
