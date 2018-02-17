@@ -29,3 +29,4 @@ tbot/config.yml
 tbot/lib/tbot.db
 tbot/subscribers.csv
 tbot/lib/__pycache__/
+/node_modules/

@@ -1,10 +1,10 @@
 from setuptools import setup
-
+#TODO this doesn't work yet
 setup(
     name='py3tbot',
     version='0.1.2',
-    packages=['tbot', 'tbot.lib', 'lib'],
-    package_dir={'': 'tbot/lib'},
+    packages=['app', 'app.lib', 'lib'],
+    package_dir={'': 'app/lib'},
     url='https://github.com/wroersma/py3tbot',
     license='GNUv3',
     author='Wyatt Roersma',
