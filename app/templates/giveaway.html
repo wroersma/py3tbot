@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <div class="mdl-layout-spacer"></div>
+    <main class="mdl-layout__content">
+    <div class="page-content">
+    <h1>{{ _('Giveaway') }}</h1>
+        <div class="mdl-layout-spacer">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+    </main>
+    <div class="mdl-layout-spacer"></div>
+
+{% endblock %}

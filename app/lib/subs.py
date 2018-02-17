@@ -1,4 +1,9 @@
 import random
+from flask import flash
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+from flask_babel import _, lazy_gettext as _l
 
 
 def get_subscribers_file():
@@ -26,8 +31,7 @@ def get_non_winning_sub_list(sub_user_name_list, winner_list) -> list:
     non_winning_sub_list = []
     string_user_name_winner_list = []
     for item in winner_list:
-        user_name_object = [item][0]
-        user_name = (str(user_name_object)[7:-2])
+        user_name = item.username
         if item != user_name:
             string_user_name_winner_list.append(user_name)
     for user_name_item in sub_user_name_list:
@@ -36,8 +40,18 @@ def get_non_winning_sub_list(sub_user_name_list, winner_list) -> list:
     return non_winning_sub_list
 
 
-def return_random_sub_name(sub_user_name_list) -> str:
+def return_random_sub_name(sub_user_name_list):
     number_of_subs = len(sub_user_name_list)
-    select_winner = random.randint(0, int(number_of_subs))
-    name = sub_user_name_list[select_winner]
-    return str(name)
+    if number_of_subs > 0:
+        select_winner = random.randint(0, int(number_of_subs - 1))
+        name = sub_user_name_list[select_winner]
+        return str(name)
+    else:
+        flash(u'There are not more valid winner with the selected options', 'error')
+        name = None
+        return name
+
+
+class DrawWinner(FlaskForm):
+    Product = StringField(_l('Product'), validators=[DataRequired()])
+    submit = SubmitField(_l('Draw a winner'))
