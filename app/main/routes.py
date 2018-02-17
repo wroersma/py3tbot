@@ -108,7 +108,7 @@ def add_winner(sub_name, project_name):
 @login_required
 def giveaway():
     form = DrawWinner()
-    if form.validate_on_submit() is True:
+    if form.Product.data is not None and len(form.Product.data) > 0:
         # TODO fix this so it's a config option or stored in the database from an api call
         subscribers_file = "subscribers.csv"
         sub_list = get_sub_list(subscribers_file)

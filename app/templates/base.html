@@ -3,6 +3,17 @@
     {% if title %}{{ title }} - PY3TBOT{% else %}{{ _('Welcome to PY3TBOT') }}{% endif %}
 {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.blue-indigo.min.css">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+{{super()}}
+{% endblock %}
+
 {% block navbar %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-indigo.min.css" />
@@ -65,9 +76,10 @@
 
         {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
+
     </div>
+    <div class="mdl-layout-spacer"></div>
     <!--Footer-->
-    <div class="mdl-layout-spacer">
     <footer class="mdl-mega-footer">
       <div class="mdl-mega-footer__bottom-section">
         <ul class="mdl-mega-footer__link-list">

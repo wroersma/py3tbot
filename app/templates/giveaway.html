@@ -2,15 +2,30 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <div class="mdl-layout-spacer"></div>
+    <style>
+    .demo-card-wide.mdl-card {
+      width: 400px;
+    }
+    .demo-card-wide > .mdl-card__title {
+      height: 120px;
+    }
+    </style>
     <main class="mdl-layout__content">
     <div class="page-content">
-    <h1>{{ _('Giveaway') }}</h1>
-        <div class="mdl-layout-spacer">
-            {{ wtf.quick_form(form) }}
-        </div>
+    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">{{ _('Giveaway') }}</h2>
+    </div>
+      <div class="mdl-card__supporting-text">
+        Please enter a product name and draw a winner from the current subs that haven't won anything yet
+      </div>
+    <div class="mdl-card__actions mdl-card--border ">
+    <form class="form" method="post" role="form">
+    {{ wtf.form_field(form.Product) }}
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Draw a winner</button>
+    </form>
+    </div>
+    </div>
     </div>
     </main>
-    <div class="mdl-layout-spacer"></div>
-
 {% endblock %}

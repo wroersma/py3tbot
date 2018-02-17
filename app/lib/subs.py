@@ -55,3 +55,4 @@ def return_random_sub_name(sub_user_name_list):
 class DrawWinner(FlaskForm):
     Product = StringField(_l('Product'), validators=[DataRequired()])
     submit = SubmitField(_l('Draw a winner'))
+
