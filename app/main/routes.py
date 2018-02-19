@@ -122,4 +122,5 @@ def giveaway():
             flash(_('Congrats on winning ' + sub_name + " !"))
         return render_template('giveaway.html', form=form)
     elif form.validate_on_submit() is False:
-        return render_template('giveaway.html', form=form)
+        winning_sub_list = Award.query.order_by(Award.username).all()
+        return render_template('giveaway.html', form=form, winning_sub_list=winning_sub_list)
