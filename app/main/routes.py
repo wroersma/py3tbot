@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from app import db
 from app.main.forms import EditProfileForm, SearchForm, MessageForm
-from app.models import User, Message, Notification, Award
+from app.models import User, Message, Notification, Award, Group
 from app.main import bp
 from app.lib.subs import get_sub_list, get_non_winning_sub_list, get_user_name_list, return_random_sub_name, DrawWinner
 
@@ -98,10 +98,17 @@ def notifications():
 
 
 def add_winner(sub_name, project_name):
-    winning_sub = Award(username=sub_name, award_name=project_name.data)
+    winning_sub = Award(username=sub_name, award_name=project_name)
     db.session.add(winning_sub)
     db.session.commit()
     return sub_name
+
+
+@bp.route('/groups')
+@login_required
+def groups():
+    group_info = Group.query.order_by(Group.group_name).all()
+    return render_template('groups.html', group_info=group_info)
 
 
 @bp.route('/giveaway', methods=['GET', 'POST'])
@@ -117,10 +124,11 @@ def giveaway():
         non_winning_sub_list = get_non_winning_sub_list(sub_user_name_list, winner_list)
         sub_name = return_random_sub_name(non_winning_sub_list)
         if sub_name is not None:
-            add_winner(sub_name, form.Product)
+            add_winner(sub_name, form.Product.data)
             logging.info("New winner inserted into DB " + str(sub_name))
-            flash(_('Congrats on winning ' + sub_name + " !"))
-        return render_template('giveaway.html', form=form)
+            flash(_('Congrats on winning ' + str(form.Product.data) + " " + sub_name + " !"))
+        winning_sub_list = Award.query.order_by(Award.username).all()
+        return render_template('giveaway.html', form=form, winning_sub_list=winning_sub_list)
     elif form.validate_on_submit() is False:
         winning_sub_list = Award.query.order_by(Award.username).all()
         return render_template('giveaway.html', form=form, winning_sub_list=winning_sub_list)
