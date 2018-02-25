@@ -1,18 +1,14 @@
-from flask import render_template, redirect, url_for, flash, request, session
+from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from flask_babel import _
 from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User, Group
+from app.models import User
 from app.auth.email import send_password_reset_email
-
-
-def get_groups():
-    user_groups = Group.query.filter_by(username=current_user.username).first_or_404()
-    session['groups'] = user_groups.group_name
-    return session['groups']
+from app.auth.utils import check_group, get_groups
+from app.auth.models import Group
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -84,3 +80,13 @@ def reset_password(token):
         flash(_('Your password has been reset.'))
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
+
+
+@bp.route('/groups')
+@login_required
+def groups():
+    if check_group("admin") is True:
+        group_info = Group.query.order_by(Group.group_name).all()
+        return render_template('groups.html', group_info=group_info)
+    else:
+        return render_template('errors/404.html')

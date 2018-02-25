@@ -1,14 +1,12 @@
 import logging
-import os
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app, session
+from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from app import db
 from app.main.forms import EditProfileForm, SearchForm, MessageForm
-from app.models import User, Message, Notification, Award, Group
+from app.models import User, Message, Notification, Award
 from app.main import bp
-from app.auth.utils import check_group
 from app.lib.subs import get_sub_list, get_non_winning_sub_list, get_user_name_list, return_random_sub_name, DrawWinner
 
 
@@ -103,16 +101,6 @@ def add_winner(sub_name, project_name):
     db.session.add(winning_sub)
     db.session.commit()
     return sub_name
-
-
-@bp.route('/groups')
-@login_required
-def groups():
-    if check_group("admin") is True:
-        group_info = Group.query.order_by(Group.group_name).all()
-        return render_template('groups.html', group_info=group_info)
-    else:
-        return render_template('errors/404.html')
 
 
 @bp.route('/giveaway', methods=['GET', 'POST'])

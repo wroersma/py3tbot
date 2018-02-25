@@ -193,16 +193,6 @@ class Task(db.Model):
         return job.meta.get('progress', 0) if job is not None else 100
 
 
-class Group(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    group_name = db.Column(db.String(128), index=True)
-    username = db.Column(db.Integer, db.ForeignKey('user.id'))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Group {}>'.format(self.group_name)
-
-
 class Award(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     award_name = db.Column(db.String(128), index=True)

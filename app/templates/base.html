@@ -49,7 +49,7 @@
           <!-- becruxcetti -->
           {% if "admin" in session.groups %}
           <a class="mdl-navigation__link" href="{{ url_for('main.giveaway') }}">Giveaway</a>
-          <a class="mdl-navigation__link" href="{{ url_for('main.groups') }}">Groups</a>
+          <a class="mdl-navigation__link" href="{{ url_for('auth.groups') }}">Groups</a>
           {% endif %}
         </nav>
       </div>
