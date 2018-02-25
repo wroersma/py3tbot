@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
 {% block app_content %}
-     <main class="mdl-layout__content">
+    <main class="mdl-layout__content">
     <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
     <table class="mdl-data-table mdl-js-data-table">
@@ -9,6 +10,7 @@
         <tr>
           <th class="mdl-data-table__cell--non-numeric">Group</th>
           <th>Username</th>
+          <th>Option</th>
         </tr>
       </thead>
       <tbody>
@@ -16,6 +18,12 @@
       <tr>
       <td class="mdl-data-table__cell--non-numeric">{{ items.group_name }}</td>
       <td>{{ items.username }}</td>
+          <td>
+              <!-- Aerotos helped me understand this checkbox stuff-->
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                 <input type="checkbox" class="mdl-checkbox__input" />
+              </label>
+          </td>
       </tr>
       {% endfor %}
       </tbody>
