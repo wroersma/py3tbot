@@ -87,6 +87,6 @@ def reset_password(token):
 def groups():
     if check_group("admin") is True:
         group_info = Group.query.order_by(Group.group_name).all()
-        return render_template('groups.html', group_info=group_info)
+        return render_template('auth/groups.html', group_info=group_info)
     else:
         return render_template('errors/404.html')

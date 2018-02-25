@@ -27,6 +27,7 @@
         <tr>
           <th class="mdl-data-table__cell--non-numeric">Product Won</th>
           <th>Username</th>
+          <th>Select</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,11 @@
         <tr>
           <td class="mdl-data-table__cell--non-numeric">{{ award.award_name }}</td>
           <td>{{ award.username }}</td>
+          <td>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                 <input type="checkbox" class="mdl-checkbox__input" />
+              </label>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
