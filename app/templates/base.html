@@ -46,8 +46,11 @@
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">PY3TBOT</span>
         <nav class="mdl-navigation">
+          <!-- becruxcetti -->
+          {% if "admin" in session.groups %}
           <a class="mdl-navigation__link" href="{{ url_for('main.giveaway') }}">Giveaway</a>
           <a class="mdl-navigation__link" href="{{ url_for('main.groups') }}">Groups</a>
+          {% endif %}
         </nav>
       </div>
 
