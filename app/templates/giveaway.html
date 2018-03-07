@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <main class="mdl-layout__content">
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
+    <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">{{ _('Giveaway') }}</h2>
+    </div>
+      <div class="mdl-card__supporting-text">
+        Please enter a product name and draw a winner from the current subs that haven't won anything yet
+      </div>
+    <div class="mdl-card__actions mdl-card--border ">
+    <form class="form" method="post" role="form">
+    {{ wtf.form_field(form.Product) }}
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Draw a winner</button>
+    </form>
+    </div>
+    </div>
+    <div class="mdl-card mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
+    <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">{{ _('Awards') }}</h2>
+    </div>
+    <table class="mdl-data-table mdl-js-data-table">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Product Won</th>
+          <th>Username</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for award in winning_sub_list %}
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">{{ award.award_name }}</td>
+          <td>{{ award.username }}</td>
+          <td>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                 <input type="checkbox" class="mdl-checkbox__input" />
+              </label>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    </section>
+    </main>
+{% endblock %}
